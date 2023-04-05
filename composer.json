@@ -1,5 +1,5 @@
 {
-  "name": "bilginnet/yii2-cropper",
+  "name": "bilginnet/yii2-cropper-bootstrap5",
   "description": "Yii2 Bootstrap Cropper Input Widget",
   "type": "yii2-extension",
   "keywords": ["yii2","extension","cropper","widget"],

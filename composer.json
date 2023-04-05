@@ -14,8 +14,8 @@
   "minimum-stability": "dev",
   "prefer-stable": true,  
   "require": {
-    "yiisoft/yii2": "*",
-    "yiisoft/yii2-bootstrap": "*"
+    "yiisoft/yii2": "~2.0.45",
+    "twbs/bootstrap": "^5.0.3"
   },
   "autoload": {
     "psr-4": {

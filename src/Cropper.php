@@ -5,7 +5,7 @@ namespace bilginnet\cropper;
 
 use Yii;
 use yii\base\InvalidConfigException;
-use yii\bootstrap\InputWidget;
+use yii\bootstrap5\InputWidget;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
 use yii\web\View;

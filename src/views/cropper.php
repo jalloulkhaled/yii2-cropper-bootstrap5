@@ -18,19 +18,19 @@ use yii\web\View;
 switch ($jsOptions['pos']) {
     default:
     case View::POS_END:
-        \bilginnet\cropper\CropperAsset::register($this);
+        \jalloulkhaled\cropper\CropperAsset::register($this);
         break;
     case View::POS_BEGIN:
-        \bilginnet\cropper\CropperBeginAsset::register($this);
+        \jalloulkhaled\cropper\CropperBeginAsset::register($this);
         break;
     case View::POS_HEAD:
-        \bilginnet\cropper\CropperHeadAsset::register($this);
+        \jalloulkhaled\cropper\CropperHeadAsset::register($this);
         break;
     case View::POS_LOAD:
-        \bilginnet\cropper\CropperLoadAsset::register($this);
+        \jalloulkhaled\cropper\CropperLoadAsset::register($this);
         break;
     case View::POS_READY:
-        \bilginnet\cropper\CropperReadyAsset::register($this);
+        \jalloulkhaled\cropper\CropperReadyAsset::register($this);
         break;
 }
 

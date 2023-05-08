@@ -12,7 +12,7 @@
 /** @var $template string */
 
 
-use yii\bootstrap\Html;
+use yii\bootstrap5\Html;
 use yii\web\View;
 
 switch ($jsOptions['pos']) {

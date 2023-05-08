@@ -1,6 +1,6 @@
 <?php
 
-namespace bilginnet\cropper;
+namespace jalloulkhaled\cropper;
 
 
 use yii\web\AssetBundle;

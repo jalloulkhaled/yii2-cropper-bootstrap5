@@ -34,7 +34,6 @@ switch ($jsOptions['pos']) {
         break;
 }
 
-
 $cropWidth = $cropperOptions['width'];
 $cropHeight = $cropperOptions['height'];
 $aspectRatio = $cropWidth / $cropHeight;
@@ -46,10 +45,10 @@ if ($label !== false) $browseLabel = $cropperOptions['icons']['browse'] . ' ' . 
 // button template
 $buttonContent = Html::button($browseLabel, [
     'class' => $cropperOptions['buttonCssClass'],
-    'data-toggle' => 'modal',
-    'data-target' => '#cropper-modal-' . $uniqueId,
+    'data-bs-toggle' => 'modal',
+    'data-bs-target' => '#cropper-modal-' . $uniqueId,
     //'data-keyboard' => 'false',
-    'data-backdrop' => 'static',
+    'data-bs-backdrop' => 'static',
     'id' => 'cropper-select-button-' . $uniqueId,
 ]);
 
@@ -61,18 +60,36 @@ if ($cropperOptions['preview'] !== false) {
     $previewWidth = $previewOptions['width'];
     $previewHeight = $previewOptions['height'];
 
+    /*override Begin*/
+
+    $userImage =  Yii::$app->user->isGuest? null :  Yii::$app->user->identity->image ;
+
+    //if user already have image     if we dont use modal replace # removeImageProfile
+    $buttonRemove = in_array($userImage, [null, ''])?  '' :  Html::a( 'x', '', ['id' => 'cropper-icon-remove', 'class' => 'cropper-icon-remove']) ;
+    $visibleText = in_array($userImage, [null, ''])?  'visible' : 'invisible';
+    $visiblePreview = in_array($userImage, [null, ''])?  'invisible' : 'visible';
+    /*override End*/
+
     $previewImage = Html::img($src, ['id' => 'cropper-image-'.$uniqueId, 'style' => "width: $previewWidth; height: $previewHeight;"]);
-    $previewContent = '<div class="cropper-container clearfix">' .
+    /*override Here => this field*/
+    $previewContent = '<div class="cropper-preview-wrapper">'
+        .'<div class="cropper-container clearfix '.$visiblePreview.'">' .
         Html::tag('div', $previewImage, [
             'id' => 'cropper-result-'.$uniqueId,
             'class' => 'cropper-result',
             'style' => "width: $previewWidth; height: $previewHeight;",
             'data-buttonid' => 'cropper-select-button-' . $uniqueId,
             'onclick' => 'js: $("#cropper-select-button-'.$uniqueId.'").click()',
-        ]) .
-    '</div>';
+        ])
+        . $buttonRemove
+        .'</div>'
+        .'<p id="image-text-info" class="cropper-image-default '.$visibleText.'">'
+        . Yii::t('strings', 'cropper.image_default_text')
+        .'</p>'
+        .'</div>'
+    ;
 } else {
-    $previewContent = Html::img(null, ['class' => 'hidden', 'id' => 'cropper-image-'.$uniqueId]);
+    $previewContent = Html::img(null, ['class' => 'd-none', 'id' => 'cropper-image-'.$uniqueId]);
 }
 
 
@@ -80,17 +97,16 @@ if ($cropperOptions['preview'] !== false) {
 if (!empty($name)) {
     $input = Html::tag('div', Html::input('text', $name, $value, [
         'id' => $uniqueId.'-input',
-        'class' => 'hidden'
+        'class' => 'd-none'
     ]), ['id' => $uniqueId, 'class' => '',]);
     $inputId = $uniqueId.'-input';
 } else {
     $input = Html::tag('div', Html::activeTextInput($model, $attribute, [
         'value' => $value,
-        'class' => 'hidden',
+        'class' => 'd-none',
     ]), ['id' => $uniqueId, 'class' => '',]);
     $inputId = Html::getInputId($model, $attribute);
 }
-
 
 // set template
 $template = str_replace('{button}',  $input . $buttonContent, $template);
@@ -120,13 +136,6 @@ if ($cropperOptions['preview'] !== false) {
 }
 ?>
 <?php $this->registerCss('
-    /*.cropper-result {
-        margin-top: 10px; 
-        border: 1px dotted #bfbfbf; 
-        background-color: #f5f5f5;
-        position: relative;   
-        cursor: pointer;     
-    }*/
     #cropper-modal-'.$uniqueId.' img{
         max-width: 100%;
     }
@@ -134,6 +143,11 @@ if ($cropperOptions['preview'] !== false) {
         position: relative;
         overflow: hidden;
     }
+    
+    #cropper-modal-'.$uniqueId.' .cropper-modal-wrapper button, #cropper-modal-'.$uniqueId.' .cropper-modal-wrapper .cropper-browse-btn {
+        margin-bottom: 5px;
+    }
+    
     #cropper-modal-'.$uniqueId.' .btn-file input[type=file] {
         position: absolute;
         top: 0;
@@ -324,6 +338,9 @@ $this->registerJs(<<<JS
         options_$uniqueId.element.result.html('<img src="' + options_$uniqueId.croppedCanvas.toDataURL() + '" id="cropper-image-$uniqueId">');        
         options_$uniqueId.input.model.attr('type', 'text');        
         options_$uniqueId.input.model.val(options_$uniqueId.croppedCanvas.toDataURL());
+        
+        $('#image-text-info').addClass('invisible');
+        $('.cropper-container.clearfix.invisible').removeClass('invisible');
     }
     
 

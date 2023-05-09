@@ -373,3 +373,34 @@
 .cropper-disabled .cropper-point {
   cursor: not-allowed;
 }
+
+.btn-red {
+  background-color: #e92f3e;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+}
+.btn-red:hover{
+  background-color: #C9302C!important;
+  color: #FFFFFF!important;
+}
+
+.btn-red:active{
+  background-color: #C9302C!important;
+  color: #FFFFFF!important;
+}
+.btn-blue{
+  background-color: #1eb0f2;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+}
+.btn-blue:hover{
+  background-color: #0099de!important;
+  color: #FFFFFF!important;
+}
+
+.btn-blue:active{
+  background-color: #0099de!important;
+  color: #FFFFFF!important;
+}
